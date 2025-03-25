@@ -1,104 +1,92 @@
-# BlinkAlarm 👁️
+# BlinkAlarm 👁️❤️‍🩹🔕 - Prevent eyestrain, red eyes, and dry eyes with real-time computer vision!
 
 ![BlinkAlarm Logo](images/logo1.png)
 
-BlinkAlarm is an intelligent computer vision system that helps prevent digital eye strain by monitoring your blink rate in real-time. Using your webcam and advanced facial landmark detection, it provides gentle reminders when you're not blinking enough during focused computer work.
+Ever caught yourself staring at your screen like a zombie, eyes drier than a desert? This is a common problem for software engineers and other knowledge workers.
+
+Here's a wild fact: When you're zoned in on your screen, your blink rate drops from a healthy 15-20 blinks per minute to a measly 3-4 (or in some cases, even fewer). Unfortunately, the more focused you are, the more likely you are to completely forget to blink altogether. Depending on total per-day screentime over a career or lifetime, this can really add up to poor eye health and declining vision. BlinkAlarm is here to help retrain your natural blinking patterns! (although it may drive you nuts)
 
 ![Annotated Frame Example](images/2-annotated.png)
-*BlinkAlarm's real-time facial landmark detection and analysis*
+*BlinkAlarm in action - watching you not watching it*
 
-## Why BlinkAlarm?
+# Blinks per minute
 
-When we're focused on screens, our blink rate can drop from a healthy 15-20 blinks per minute to just 3-4 blinks per minute. This reduced blinking leads to dry eyes, eye strain, and potential long-term issues. BlinkAlarm helps retrain your natural blinking patterns while you work.
+A normal human blink rate is 15-20 per minute (or 3-4 seconds between blinks). However, when focusing or working, the blink rate naturally declines. For example, when playing a a sport like tennis, the blink rate also declines, especially during intense periods. It's completely healthy for short, intense periods. It becomes problematic only when focused periods happen for 20+ minutes at a time. Many ultra-productive knowledge workers, especially those who work from home, may have many hours per-day of sustained focus.
 
-## Features
+If you find yourself in this category, I'd suggest trying out BlinkAlarm at the very least for a single session of 60+ minutes to get statistics on how often you do actually blink while working.
 
-- Real-time blink detection using advanced computer vision
-- Head tilt compensation for accurate blink detection at any angle
-- Gentle audio reminders when you need to blink
-- Detailed metrics including blink rate and timing
-- Extremely lightweight - tested on M2 MacBook Pro with negligible CPU/power impact
-- Configurable processing rate to further optimize performance
 
-## Installation
+## What can it do
+
+- 👀 Real-time blink detection (runs >50x faster than real-time on an M2 macbook Pro)
+- 🎯 Head posture compensation (because this isn't a phone selfie camera -- you're sitting naturally, with dynamic positions)
+- 🔊 Gentle (or strong) reminders when you've accidentally entered into a staring contest
+- 📊 Session stats on your blink rate
+- 🪶 Lightweight: runs on Google's FaceMesh, which is heavily optimized for cheap mobile devices
+- ⚡ Adjustable processing rate (`--frames 5`) if you need it to be even lighter in the background
+
+## Install
+
 ```bash
-Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate # On Windows: venv\Scripts\activate
-Install dependencies
-pip install poetry
+git clone github.com/gr-b/blinkalarm
+
+pip install poetry # If you don't already have it
 poetry install
 ```
 
+## How to run
 
-## Usage
-
-Basic usage:
 ```bash
 poetry run python blinkalarm.py
 ```
 
-Additional settings:
+# Blinks per minute
+
+- A normal human blink rate is 15-20 per minute (or 3-4 seconds between blinks).
+- However, after trying it set to 15 per minute, I found it incredibly annoying
+- I set the default to 6 per minute (reminder every 10s without blinking) and this is much more manageable. I plan to gradually work my way up from here. This way, only egregious cases cause the alarm at first.
+
+To run with more blinks per minute required:
 ```bash
-poetry run python blinkalarm.py --frames 1 --threshold 0.45 --required-bpm 6
+poetry run python blinkalarm.py --required-bpm 12
 ```
 
+### Your Training Program 🏋️‍♂️
+1. Rookie Level: Start at 6 blinks/minute (default setting)
+2. Intermediate: Level up to 8-10 blinks/minute
+3. Pro Status: Hit that healthy 12-15 blinks/minute
 
-### Parameters
+Fair warning, this can get pretty annoying. Let me know if you have ideas for how I could make it less annoying, while retaining the utility.
 
-- `--frames N`: Process one frame for every N frames (default: 1)
-- `--threshold`: EAR (Eye Aspect Ratio) threshold for blink detection (default: 0.45)
-- `--required-bpm`: Required blinks per minute (default: 6)
+# Run it faster / consume fewer resources
 
-## Recommended Usage
+It's already really lightweight, but if you need it to be even more, increase the `--frames N` parameter (default processes 1 frame per `1` frame captured).
 
-BlinkAlarm is designed to run in the background during your computer work. The default setting of 6 blinks per minute (reminder every 10 seconds without blinking) is a gentle starting point. While health recommendations suggest 15+ blinks per minute, starting lower helps build the habit without being disruptive.
+`poetry run python blinkalarm.py --frames 5` Process a frame for every `5` frames captured
 
-### Suggested Progression
-1. Start with 6 blinks per minute (default)
-2. Once comfortable, increase to 8-10 blinks per minute
-3. Gradually work up to 12-15 blinks per minute
+## Coming Soon™ (let me know if you want any of these and I may actually implement it)
 
-If you find the processing impacting performance (unlikely), increase the `--frames` parameter. Each increment processes fewer frames, reducing CPU usage.
+- [ ] Run on startup
+- [ ] Volume control
+- [ ] Fancy GUI
+- [ ] 20-20-20 rule integration (look 20 feet away every 20 minutes for 20 seconds)
+- [ ] Option for a visual pop-up rather than audio alarm.
 
-## Future Features Under Consideration
+## Dependencies
 
-- [ ] Auto-start on system boot
-- [ ] Volume control for reminders
-- [ ] GUI for easy configuration
-- [ ] 20-20-20 rule integration (look at something 20 feet away every 20 minutes for 20 seconds)
-- [ ] Look-away detection and timing
-- [ ] Performance optimizations
+- Python 3.8+ (because we're not savages)
+- A webcam (your laptop's built-in one is perfect)
+- Some dependencies (let poetry handle the heavy lifting):
+  - OpenCV (for the computer vision magic)
+  - MediaPipe (for the fancy face stuff)
+  - NumPy (because math)
+  - SimpleAudio (for those gentle "hey, blink!" reminders)
 
-Feedback on which features would be most valuable is welcome!
+## Where It Works
 
-## Requirements
+- Definitely works on macOS (tested on M2 MacBook Pro)
+- Should work on Windows and Linux (but we need brave volunteers to confirm)
 
-- Python 3.8+
-- Webcam
-- Dependencies ( `poetry install`):
-  - OpenCV
-  - MediaPipe
-  - NumPy
-  - SimpleAudio
+---
 
-## Platform Support
-
-Tested on:
-- macOS (M2 MacBook Pro)
-
-Should work on Windows and Linux, but needs testing.
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-MIT License - see LICENSE file for details
-
-
-
-
-
-
+You only get one pair of eyes - treat them right! 👀✨
