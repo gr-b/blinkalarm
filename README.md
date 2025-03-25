@@ -1,13 +1,13 @@
 # BlinkAlarm 👁️❤️‍🩹🔕 - Prevent eyestrain, red eyes, and dry eyes with real-time computer vision!
 
-![BlinkAlarm Logo](images/logo1.png)
+![Annotated Frame Example](images/2-annotated.png)
+*BlinkAlarm in action - watching you not watching it*
 
 Ever caught yourself staring at your screen like a zombie, eyes drier than a desert? This is a common problem for software engineers and other knowledge workers.
 
 Here's a wild fact: When you're zoned in on your screen, your blink rate drops from a healthy 15-20 blinks per minute to a measly 3-4 (or in some cases, even fewer). Unfortunately, the more focused you are, the more likely you are to completely forget to blink altogether. Depending on total per-day screentime over a career or lifetime, this can really add up to poor eye health and declining vision. BlinkAlarm is here to help retrain your natural blinking patterns! (although it may drive you nuts)
 
-![Annotated Frame Example](images/2-annotated.png)
-*BlinkAlarm in action - watching you not watching it*
+![BlinkAlarm Logo](images/logo1.png)
 
 # Blinks per minute
 
