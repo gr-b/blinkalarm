@@ -425,6 +425,29 @@ class BlinkDetector:
         
         return frame, detection_state, play_reminder
 
+def process_single_image(image_path: str, output_path: str, detector: BlinkDetector) -> None:
+    """
+    Process a single image and save the annotated version.
+    
+    Args:
+        image_path: Path to input image
+        output_path: Path to save annotated image
+        detector: BlinkDetector instance
+    """
+    # Read the image
+    frame = cv2.imread(image_path)
+    if frame is None:
+        raise ValueError(f"Could not read image from {image_path}")
+    
+    # Process the frame
+    processed_frame, detection_state, _ = detector.process_frame(frame)
+    
+    # Save the annotated image
+    cv2.imwrite(output_path, processed_frame)
+    print(f"Processed image saved to {output_path}")
+    if detection_state:
+        print(f"Detection state: {detection_state}")
+
 def main():
     # Parse command line arguments
     import argparse
@@ -432,14 +455,8 @@ def main():
     parser.add_argument('--frames', type=int, default=1, help='Process one frame for every N frames')
     parser.add_argument('--threshold', type=float, default=0.45, help='EAR threshold for blink detection')
     parser.add_argument('--required-bpm', type=int, default=6, help='Required blinks per minute')
+    parser.add_argument('--annotate-single-frame', type=str, help='Path to single image to annotate')
     args = parser.parse_args()
-    
-    # Initialize webcam
-    cap = cv2.VideoCapture(0)  # 0 is usually the default webcam on Mac
-    
-    if not cap.isOpened():
-        print("Error: Could not open webcam.")
-        return
     
     # Convert required blinks per minute to seconds between blinks
     seconds_between_blinks = 60.0 / args.required_bpm
@@ -450,6 +467,19 @@ def main():
         blink_threshold=args.threshold,
         seconds_between_blinks=seconds_between_blinks
     )
+    
+    # If single frame mode is requested
+    if args.annotate_single_frame:
+        output_path = args.annotate_single_frame.rsplit('.', 1)[0] + '-annotated.' + args.annotate_single_frame.rsplit('.', 1)[1]
+        process_single_image(args.annotate_single_frame, output_path, blink_detector)
+        return
+
+    # Regular webcam mode
+    cap = cv2.VideoCapture(0)
+    
+    if not cap.isOpened():
+        print("Error: Could not open webcam.")
+        return
     
     # Frame counter
     frame_count = 0
